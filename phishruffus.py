@@ -40,15 +40,16 @@ def banner():
 def check_theat(dns_server,domains):
 	try:
 		response_threats = {}
-		dns_srv = dns_server
-		response_threats['dns_server'] = dns_srv
-		r = dns.resolver.Resolver()
-		dns_solve = [_.address.encode('utf-8') for _ in r.query(dns_srv)]
-		r.nameservers = dns_solve
-		r.lifetime = float(timeout)
+		dns_srv = [dns_server]
+		response_threats['dns_server'] = dns_srv[0]
+
+		resolver = dns.resolver.Resolver(configure=True)
+       		resolver.nameservers = dns_srv
+
+		resolver.lifetime = float(timeout)
 
 		for domain in domains:
-			result = r.query(str(domain),'A')
+			result = resolver.query(str(domain),'A')
 			ip_response = result.response.answer[0].items[0].address.encode('utf-8')
 			prefixie_response = '.'.join(ip_response.split('.')[0:3])
 			response_threats[domain] = {'ip_response':	ip_response,'prefixie_response':  prefixie_response}
@@ -59,6 +60,7 @@ def check_theat(dns_server,domains):
 
 	except Exception as f:
 		response_threats['status'] = False
+		print f
 		return response_threats
 		pass
 
@@ -94,7 +96,10 @@ def main():
 						sys.stdout.flush()
 					else:
 						sys.stdout.write("\n\t[ {0} ] response to [ {1} ] \t\t\t\t [ {2} ]".format(__colors__['ERRO']+d+__colors__['ENDC'],ip_address,__colors__['ERRO']+"THREAT"+__colors__['ENDC']))						
-						sys.stdout.flush()						
+						sys.stdout.flush()
+						with open("bads_dns.csv","a") as bad:
+							bad.write(str(ip_address)+'$'+'dnsreverse.example'+'$'+'FR'+'$'+'OVH SAS'+'\n')
+						bad.close()
 
 			del dns_servers[0]
 
