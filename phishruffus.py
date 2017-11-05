@@ -97,9 +97,7 @@ def main():
 					else:
 						sys.stdout.write("\n\t[ {0} ] response to [ {1} ] \t\t\t\t [ {2} ]".format(__colors__['ERRO']+d+__colors__['ENDC'],ip_address,__colors__['ERRO']+"THREAT"+__colors__['ENDC']))						
 						sys.stdout.flush()
-						with open("bads_dns.csv","a") as bad:
-							bad.write(str(ip_address)+'$'+'dnsreverse.example'+'$'+'FR'+'$'+'OVH SAS'+'\n')
-						bad.close()
+						
 
 			del dns_servers[0]
 
