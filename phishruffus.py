@@ -42,10 +42,9 @@ def check_theat(dns_server,domains):
 		response_threats = {}
 		dns_srv = [dns_server]
 		response_threats['dns_server'] = dns_srv[0]
-
+		
 		resolver = dns.resolver.Resolver(configure=True)
        		resolver.nameservers = dns_srv
-
 		resolver.lifetime = float(timeout)
 
 		for domain in domains:
