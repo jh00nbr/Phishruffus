@@ -51,7 +51,7 @@ def check_theat(dns_server,domains):
 			result = resolver.query(str(domain),'A')
 			ip_response = result.response.answer[0].items[0].address.encode('utf-8')
 			prefixie_response = '.'.join(ip_response.split('.')[0:3])
-			response_threats[domain] = {'ip_response':	ip_response,'prefixie_response':  prefixie_response}
+			response_threats[domain] = {'ip_response': ip_response,'prefixie_response': prefixie_response}
 
 		response_threats['status'] = True	
 
